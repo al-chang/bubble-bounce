@@ -23,7 +23,7 @@ const BubbleCanvas: React.FC = () => {
     ]);
   };
 
-  // Util functions
+  // Draw function
   const draw = (ctx: CanvasRenderingContext2D) => {
     ctx.canvas.width = window.innerWidth;
     ctx.canvas.height = window.innerHeight;

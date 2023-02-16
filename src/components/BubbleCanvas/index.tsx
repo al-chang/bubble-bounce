@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Bubble, { BUBBLE_RADIUS } from "../../util/Bubble";
 import { Point, randomNumber } from "../../util/utils";
 import Canvas from "../Canvas";
 
 const BubbleCanvas: React.FC = () => {
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
-  const [mousePos, setMousePos] = useState<Point>({ x: 0, y: 0 });
+  const mousePos = useRef<Point>({ x: 0, y: 0 });
 
   const handleMouseMove = (e: MouseEvent) => {
-    setMousePos({ x: e.screenX, y: e.screenY });
+    mousePos.current = { x: e.screenX, y: e.screenY };
   };
 
   // Util functions
@@ -19,7 +19,7 @@ const BubbleCanvas: React.FC = () => {
     bubbles.forEach((bubble) => {
       bubble.intersectWall();
       bubble.move();
-      bubble.draw(ctx, mousePos);
+      bubble.draw(ctx, mousePos.current);
     });
   };
 
@@ -38,9 +38,9 @@ const BubbleCanvas: React.FC = () => {
     }
     setBubbles(initBubbles);
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      // window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, []);
+  }, [setBubbles]);
   return <Canvas draw={draw} />;
 };
 

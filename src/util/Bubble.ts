@@ -1,10 +1,8 @@
-import { angleDeg, Point, randomNumber } from "./utils";
+import { angleRad, Point, randomNumber } from "./utils";
 
 export const BUBBLE_RADIUS = 20;
 
 class Bubble {
-  private allowDirectionChange: boolean = true;
-
   constructor(
     private x: number,
     private y: number,
@@ -13,12 +11,16 @@ class Bubble {
   ) {}
 
   draw(ctx: CanvasRenderingContext2D, mousePos: Point) {
-    const deg = angleDeg(mousePos, { x: this.x, y: this.y });
-    console.log(mousePos);
+    const ang = angleRad({ x: this.x, y: this.y }, mousePos);
+    const { offsetX, offsetY } = this.calcOffset(ang);
 
     ctx.beginPath();
     ctx.arc(this.x, this.y, BUBBLE_RADIUS, 0, 2 * Math.PI);
     ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "red";
+    ctx.shadowOffsetX = offsetX;
+    ctx.shadowOffsetY = offsetY;
     ctx.fill();
     ctx.closePath();
   }
@@ -29,8 +31,6 @@ class Bubble {
   }
 
   randomizeDirection = () => {
-    if (!this.allowDirectionChange) return;
-
     if (this.speedX > 0) {
       this.speedX = randomNumber(-2, -1);
     } else {
@@ -41,9 +41,6 @@ class Bubble {
     } else {
       this.speedY = randomNumber(1, 4);
     }
-
-    // this.allowDirectionChange = false;
-    // setTimeout(() => (this.allowDirectionChange = true), 50);
   };
 
   intersectBubble(bubble: Bubble) {
@@ -86,6 +83,12 @@ class Bubble {
     ) {
       this.speedY = this.speedY * -1;
     }
+  }
+
+  private calcOffset(angleRad: number) {
+    const offsetX = Math.cos(angleRad) * BUBBLE_RADIUS;
+    const offsetY = Math.sin(angleRad) * BUBBLE_RADIUS;
+    return { offsetX, offsetY };
   }
 }
 

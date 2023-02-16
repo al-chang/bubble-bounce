@@ -1,6 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import Bubble, { BUBBLE_RADIUS } from "../../util/Bubble";
-import { Point, randomNumber } from "../../util/utils";
+import React, { useCallback, useEffect, useRef } from "react";
 import "./index.css";
 
 export type CanvasProps = {
@@ -9,6 +7,10 @@ export type CanvasProps = {
 
 const Canvas: React.FC<CanvasProps> = ({ draw }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const drawCallback = useCallback(
+    (ctx: CanvasRenderingContext2D) => draw(ctx),
+    [draw]
+  );
 
   // Draw the canvas
   useEffect(() => {
@@ -17,7 +19,7 @@ const Canvas: React.FC<CanvasProps> = ({ draw }) => {
     let animationFrameId: number;
 
     const render = () => {
-      draw(context);
+      drawCallback(context);
       animationFrameId = window.requestAnimationFrame(render);
     };
     render();
@@ -25,7 +27,7 @@ const Canvas: React.FC<CanvasProps> = ({ draw }) => {
     return () => {
       window.cancelAnimationFrame(animationFrameId);
     };
-  }, [draw]);
+  }, [drawCallback]);
 
   return (
     <canvas id="canvas" ref={canvasRef}>

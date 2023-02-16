@@ -13,16 +13,12 @@ class Bubble {
   draw(ctx: CanvasRenderingContext2D, mousePos: Point) {
     const ang = angleRad({ x: this.x, y: this.y }, mousePos);
     const { offsetX, offsetY } = this.calcOffset(ang);
+    const shadowOffset = 0.25;
+    const pupilOffset = 0.2;
 
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, BUBBLE_RADIUS, 0, 2 * Math.PI);
-    ctx.fillStyle = "rgb(0, 0, 0)";
-    ctx.shadowBlur = 10;
-    ctx.shadowColor = "red";
-    ctx.shadowOffsetX = offsetX;
-    ctx.shadowOffsetY = offsetY;
-    ctx.fill();
-    ctx.closePath();
+    this.drawEye(ctx, offsetX * shadowOffset, offsetY * shadowOffset);
+    this.drawIris(ctx, offsetX * pupilOffset, offsetY * pupilOffset);
+    this.drawPupil(ctx, offsetX * pupilOffset, offsetY * pupilOffset);
   }
 
   move() {
@@ -89,6 +85,58 @@ class Bubble {
     const offsetX = Math.cos(angleRad) * BUBBLE_RADIUS;
     const offsetY = Math.sin(angleRad) * BUBBLE_RADIUS;
     return { offsetX, offsetY };
+  }
+
+  private drawEye(
+    ctx: CanvasRenderingContext2D,
+    offsetX: number,
+    offsetY: number
+  ) {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, BUBBLE_RADIUS, 0, 2 * Math.PI);
+    ctx.fillStyle = "rgb(255, 255, 255)";
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "rgb(0, 0, 0)";
+    ctx.shadowOffsetX = offsetX;
+    ctx.shadowOffsetY = offsetY;
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  private drawIris(
+    ctx: CanvasRenderingContext2D,
+    offsetX: number,
+    offsetY: number
+  ) {
+    ctx.beginPath();
+    ctx.arc(
+      this.x + offsetX,
+      this.y + offsetY,
+      BUBBLE_RADIUS * 0.66,
+      0,
+      2 * Math.PI
+    );
+    ctx.fillStyle = "rgb(0, 100, 255)";
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  private drawPupil(
+    ctx: CanvasRenderingContext2D,
+    offsetX: number,
+    offsetY: number
+  ) {
+    ctx.beginPath();
+    ctx.arc(
+      this.x + offsetX,
+      this.y + offsetY,
+      BUBBLE_RADIUS * 0.33,
+      0,
+      2 * Math.PI
+    );
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.fill();
+    ctx.closePath();
   }
 }
 

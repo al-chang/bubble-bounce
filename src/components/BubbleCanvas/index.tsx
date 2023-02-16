@@ -26,7 +26,7 @@ const BubbleCanvas: React.FC = () => {
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
     const initBubbles = [];
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 25; i++) {
       initBubbles.push(
         new Bubble(
           randomNumber(0 + BUBBLE_RADIUS, window.innerWidth - BUBBLE_RADIUS),

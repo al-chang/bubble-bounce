@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Bubble, { BUBBLE_RADIUS } from "../../util/Bubble";
 import { Point, randomNumber } from "../../util/utils";
 import Canvas from "../Canvas";
+import "./index.css";
 
 const BubbleCanvas: React.FC = () => {
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
@@ -38,7 +39,7 @@ const BubbleCanvas: React.FC = () => {
     }
     setBubbles(initBubbles);
     return () => {
-      // window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousemove", handleMouseMove);
     };
   }, [setBubbles]);
   return <Canvas draw={draw} />;

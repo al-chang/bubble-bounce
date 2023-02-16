@@ -20,7 +20,7 @@ class Bubble {
     if (pointInCircle(mousePos, { x: this.x, y: this.y }, BUBBLE_RADIUS)) {
     }
     this.drawEye(ctx, offsetX * shadowOffset, offsetY * shadowOffset);
-    this.drawIris(ctx, offsetX * pupilOffset, offsetY * pupilOffset);
+    // this.drawIris(ctx, offsetX * pupilOffset, offsetY * pupilOffset);
     this.drawPupil(ctx, offsetX * pupilOffset, offsetY * pupilOffset);
   }
 
@@ -95,9 +95,21 @@ class Bubble {
     offsetX: number,
     offsetY: number
   ) {
+    // Gradient
+    const grd = ctx.createRadialGradient(
+      this.x,
+      this.y,
+      BUBBLE_RADIUS * 0.75,
+      this.x,
+      this.y,
+      BUBBLE_RADIUS
+    );
+    grd.addColorStop(0, "purple");
+    grd.addColorStop(1, "white");
+
     ctx.beginPath();
     ctx.arc(this.x, this.y, BUBBLE_RADIUS, 0, 2 * Math.PI);
-    ctx.fillStyle = "rgb(255, 255, 255)";
+    ctx.fillStyle = grd;
     ctx.shadowBlur = 10;
     ctx.shadowColor = "rgb(0, 0, 0)";
     ctx.shadowOffsetX = offsetX;

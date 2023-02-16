@@ -1,5 +1,5 @@
 :root {
-  --background: 0, 0, 0;
+  --background: 255, 255, 255;
   --backdrop: 117, 106, 105;
   --blur-percent: 0.2;
 }

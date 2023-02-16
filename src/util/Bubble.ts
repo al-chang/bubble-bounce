@@ -9,22 +9,18 @@ class Bubble {
     private x: number,
     private y: number,
     private speedX: number,
-    private speedY: number,
-    private ctx: CanvasRenderingContext2D
+    private speedY: number
   ) {}
 
-  draw(mousePos: Point) {
+  draw(ctx: CanvasRenderingContext2D, mousePos: Point) {
     const deg = angleDeg(mousePos, { x: this.x, y: this.y });
     console.log(mousePos);
 
-    this.ctx.beginPath();
-    this.ctx.arc(this.x, this.y, BUBBLE_RADIUS, 0, 2 * Math.PI);
-    this.ctx.fillStyle = "rgb(0, 0, 0)";
-    this.ctx.shadowBlur = 20;
-    this.ctx.shadowColor = "red";
-    this.ctx.shadowOffsetY = 10;
-    this.ctx.fill();
-    this.ctx.closePath();
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, BUBBLE_RADIUS, 0, 2 * Math.PI);
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.fill();
+    ctx.closePath();
   }
 
   move() {

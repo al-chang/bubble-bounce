@@ -1,12 +1,11 @@
-import Canvas from "./components/Canvas/index";
 import "./App.css";
 import Hero from "./components/Hero";
+import BubbleCanvas from "./components/BubbleCanvas";
 
 function App() {
   return (
     <>
-      <Canvas />
-      <Hero />
+      <BubbleCanvas />
     </>
   );
 }

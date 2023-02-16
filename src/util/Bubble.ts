@@ -1,6 +1,6 @@
 import { angleRad, Point, randomNumber } from "./utils";
 
-export const BUBBLE_RADIUS = 20;
+export const BUBBLE_RADIUS = 40;
 
 class Bubble {
   constructor(
@@ -109,6 +109,8 @@ class Bubble {
     offsetY: number
   ) {
     ctx.beginPath();
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = "rgba(0, 0, 0, 0)";
     ctx.arc(
       this.x + offsetX,
       this.y + offsetY,
@@ -127,6 +129,8 @@ class Bubble {
     offsetY: number
   ) {
     ctx.beginPath();
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = "rgba(0, 0, 0, 0)";
     ctx.arc(
       this.x + offsetX,
       this.y + offsetY,

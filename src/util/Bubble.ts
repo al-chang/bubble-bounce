@@ -1,4 +1,4 @@
-import { angleRad, Point, randomNumber } from "./utils";
+import { angleRad, Point, pointInCircle, randomNumber } from "./utils";
 
 export const BUBBLE_RADIUS = 40;
 
@@ -16,6 +16,9 @@ class Bubble {
     const shadowOffset = 0.25;
     const pupilOffset = 0.2;
 
+    // TODO: Improve pupil render when mouse is on circle
+    if (pointInCircle(mousePos, { x: this.x, y: this.y }, BUBBLE_RADIUS)) {
+    }
     this.drawEye(ctx, offsetX * shadowOffset, offsetY * shadowOffset);
     this.drawIris(ctx, offsetX * pupilOffset, offsetY * pupilOffset);
     this.drawPupil(ctx, offsetX * pupilOffset, offsetY * pupilOffset);

@@ -34,3 +34,12 @@ export const findQuadrent = (origin: Point, dest: Point) => {
     return QUADRENT.FOUR;
   }
 };
+
+// TODO: Complete logic for this function
+export const pointInCircle = (
+  point: Point,
+  circleOrigin: Point,
+  radius: number
+) => {
+  return false;
+};

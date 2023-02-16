@@ -11,6 +11,17 @@ const BubbleCanvas: React.FC = () => {
   const handleMouseMove = (e: MouseEvent) => {
     mousePos.current = { x: e.screenX, y: e.screenY };
   };
+  const handleMouseDown = (e: MouseEvent) => {
+    setBubbles((_bubbles) => [
+      ..._bubbles,
+      new Bubble(
+        e.screenX,
+        e.screenY,
+        randomNumber(-1, 1),
+        randomNumber(-4, 4)
+      ),
+    ]);
+  };
 
   // Util functions
   const draw = (ctx: CanvasRenderingContext2D) => {
@@ -26,13 +37,14 @@ const BubbleCanvas: React.FC = () => {
 
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousedown", handleMouseDown);
     const initBubbles = [];
     for (let i = 0; i < 10; i++) {
       initBubbles.push(
         new Bubble(
           randomNumber(0 + BUBBLE_RADIUS, window.innerWidth - BUBBLE_RADIUS),
           randomNumber(0 + BUBBLE_RADIUS, window.innerHeight - BUBBLE_RADIUS),
-          randomNumber(-1, 4),
+          randomNumber(-1, 1),
           randomNumber(-4, 4)
         )
       );
@@ -40,6 +52,7 @@ const BubbleCanvas: React.FC = () => {
     setBubbles(initBubbles);
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousedown", handleMouseDown);
     };
   }, [setBubbles]);
   return <Canvas draw={draw} />;

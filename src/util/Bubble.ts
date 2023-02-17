@@ -3,6 +3,10 @@ import { angleRad, Point, pointInCircle, randomNumber } from "./utils";
 export const BUBBLE_RADIUS = 40;
 
 class Bubble {
+  private eyeLidHeight = BUBBLE_RADIUS * 0.5;
+  private isEyeLidClosing = false;
+  private isEyeLidOpening = false;
+
   constructor(
     private x: number,
     private y: number,
@@ -20,7 +24,9 @@ class Bubble {
     if (pointInCircle(mousePos, { x: this.x, y: this.y }, BUBBLE_RADIUS)) {
     }
     this.drawEye(ctx, offsetX * shadowOffset, offsetY * shadowOffset);
-    this.drawIris(ctx, offsetX * pupilOffset, offsetY * pupilOffset);
+    this.drawEyeWhite(ctx);
+    this.closeEyeLid();
+    // this.drawIris(ctx, offsetX * pupilOffset, offsetY * pupilOffset);
     this.drawPupil(ctx, offsetX * pupilOffset, offsetY * pupilOffset);
   }
 
@@ -97,11 +103,41 @@ class Bubble {
   ) {
     ctx.beginPath();
     ctx.arc(this.x, this.y, BUBBLE_RADIUS, 0, 2 * Math.PI);
-    ctx.fillStyle = "rgb(255, 255, 255)";
-    ctx.shadowBlur = 10;
-    ctx.shadowColor = "rgb(0, 0, 0)";
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = "rgb(0, 0, 255)";
     ctx.shadowOffsetX = offsetX;
     ctx.shadowOffsetY = offsetY;
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  private drawEyeWhite(ctx: CanvasRenderingContext2D) {
+    // Gradient
+    const grd = ctx.createRadialGradient(
+      this.x,
+      this.y,
+      BUBBLE_RADIUS * 0.75,
+      this.x,
+      this.y,
+      BUBBLE_RADIUS
+    );
+    grd.addColorStop(0, "purple");
+    grd.addColorStop(1, "white");
+
+    ctx.beginPath();
+    ctx.ellipse(
+      this.x,
+      this.y,
+      this.eyeLidHeight,
+      BUBBLE_RADIUS,
+      Math.PI / 2,
+      0,
+      2 * Math.PI
+    );
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = "rgba(0, 0, 0, 0)";
+    ctx.fillStyle = "blue";
     ctx.fill();
     ctx.closePath();
   }
@@ -144,6 +180,33 @@ class Bubble {
     ctx.fillStyle = "rgb(0, 0, 0)";
     ctx.fill();
     ctx.closePath();
+  }
+
+  private closeEyeLid() {
+    if (
+      !this.isEyeLidClosing &&
+      !this.isEyeLidOpening &&
+      randomNumber(0, 1000) > 999
+    ) {
+      this.isEyeLidClosing = true;
+    }
+
+    if (this.eyeLidHeight === 0 && this.isEyeLidClosing) {
+      this.isEyeLidClosing = false;
+      this.isEyeLidOpening = true;
+    } else if (
+      this.eyeLidHeight === BUBBLE_RADIUS * 0.5 &&
+      this.isEyeLidOpening
+    ) {
+      this.isEyeLidOpening = false;
+      this.isEyeLidClosing = false;
+    }
+
+    if (this.isEyeLidClosing) {
+      this.eyeLidHeight -= 1;
+    } else if (this.isEyeLidOpening) {
+      this.eyeLidHeight += 1;
+    }
   }
 }
 

@@ -9,14 +9,14 @@ const BubbleCanvas: React.FC = () => {
   const mousePos = useRef<Point>({ x: 0, y: 0 });
 
   const handleMouseMove = (e: MouseEvent) => {
-    mousePos.current = { x: e.screenX, y: e.screenY };
+    mousePos.current = { x: e.clientX, y: e.clientY };
   };
   const handleMouseDown = (e: MouseEvent) => {
     setBubbles((_bubbles) => [
       ..._bubbles,
       new Bubble(
-        e.screenX,
-        e.screenY,
+        e.clientX,
+        e.clientY,
         randomNumber(-1, 1),
         randomNumber(-4, 4)
       ),
